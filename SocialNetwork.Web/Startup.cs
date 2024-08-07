@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Web.Context;
+using SocialNetwork.Web.Models.Users;
 
 namespace SocialNetwork.Web
 {
@@ -17,6 +21,18 @@ namespace SocialNetwork.Web
         // Документация:  https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            string? connectionString = _configuration.GetConnectionString("DefaultConnection");
+           
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton)
+                .AddIdentity<User, IdentityRole>(opts =>
+                {
+                    opts.Password.RequiredLength = 5;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -44,6 +60,7 @@ namespace SocialNetwork.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
