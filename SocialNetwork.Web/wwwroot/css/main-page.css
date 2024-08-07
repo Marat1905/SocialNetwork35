@@ -28,3 +28,16 @@
     text-align: center;
     width: 100%;
 }
+
+.main-img {
+    width: 100%;
+    max-width: max-content;
+}
+
+.background-main {
+    background-color: #edeef0;
+}
+
+.background-white {
+    background-color: white;
+}
