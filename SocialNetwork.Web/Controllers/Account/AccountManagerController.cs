@@ -284,6 +284,17 @@ namespace SocialNetwork.Web.Controllers.Account
         }
 
         [Route("NewMessage")]
+        [HttpGet]
+        public async Task<IActionResult> RefreshChat()
+        {
+
+            var id = Request.Query["id"];
+
+            var model = await GenerateChat(id);
+            return View("Chat", model);
+        }
+
+        [Route("NewMessage")]
         [HttpPost]
         public async Task<IActionResult> NewMessage(string id, ChatViewModel chat)
         {
