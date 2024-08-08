@@ -8,7 +8,7 @@ using SocialNetwork.Web.Extentions;
 using SocialNetwork.Web.Models.Users;
 using SocialNetwork.Web.ViewModels.Account;
 
-namespace SocialNetwork.Web.Controllers
+namespace SocialNetwork.Web.Controllers.Account
 {
     public class AccountManagerController : Controller
     {

@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Web.Models.Users;
 using SocialNetwork.Web.ViewModels.Account;
 
-namespace SocialNetwork.Web.Controllers
+namespace SocialNetwork.Web.Controllers.Account
 {
-    public class RegisterController: Controller
+    public class RegisterController : Controller
     {
         private IMapper _mapper;
         private readonly UserManager<User> _userManager;
