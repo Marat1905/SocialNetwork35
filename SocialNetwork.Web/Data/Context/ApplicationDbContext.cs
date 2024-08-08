@@ -10,7 +10,7 @@ namespace SocialNetwork.Web.Data.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -18,6 +18,7 @@ namespace SocialNetwork.Web.Data.Context
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new FriendConfiguration());
+            builder.ApplyConfiguration(new MessageConfuiguration());
         }
     }
 }

@@ -35,8 +35,9 @@ namespace SocialNetwork.Web
 
             services.AddSingleton(mapper);
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton)
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString))
                 .AddUnitOfWork()
+                .AddCustomRepository<Message, MessageRepository>()
                 .AddCustomRepository<Friend, FriendsRepository>()
                 .AddIdentity<User, IdentityRole>(opts =>
                 {
@@ -70,7 +71,15 @@ namespace SocialNetwork.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            var cachePeriod = "0";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+            });
+
 
             app.UseRouting();
 

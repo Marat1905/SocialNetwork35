@@ -155,6 +155,56 @@ namespace SocialNetwork.Web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Friend", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CurrentFriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrentFriendId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFriends", (string)null);
+                });
+
+            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Mesages", (string)null);
+                });
+
             modelBuilder.Entity("SocialNetwork.Web.Models.Users.User", b =>
                 {
                     b.Property<string>("Id")
@@ -295,6 +345,36 @@ namespace SocialNetwork.Web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Friend", b =>
+                {
+                    b.HasOne("SocialNetwork.Web.Models.Users.User", "CurrentFriend")
+                        .WithMany()
+                        .HasForeignKey("CurrentFriendId");
+
+                    b.HasOne("SocialNetwork.Web.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("CurrentFriend");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Message", b =>
+                {
+                    b.HasOne("SocialNetwork.Web.Models.Users.User", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId");
+
+                    b.HasOne("SocialNetwork.Web.Models.Users.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
                 });
 #pragma warning restore 612, 618
         }

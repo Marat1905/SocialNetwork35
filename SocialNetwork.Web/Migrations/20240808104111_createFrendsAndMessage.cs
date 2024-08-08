@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SocialNetwork.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class update_UserTable : Migration
+    public partial class createFrendsAndMessage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,6 +163,55 @@ namespace SocialNetwork.Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Mesages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SenderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RecipientId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mesages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Mesages_AspNetUsers_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Mesages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserFriends",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CurrentFriendId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFriends", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserFriends_AspNetUsers_CurrentFriendId",
+                        column: x => x.CurrentFriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserFriends_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -201,6 +250,26 @@ namespace SocialNetwork.Web.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mesages_RecipientId",
+                table: "Mesages",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mesages_SenderId",
+                table: "Mesages",
+                column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFriends_CurrentFriendId",
+                table: "UserFriends",
+                column: "CurrentFriendId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFriends_UserId",
+                table: "UserFriends",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -220,6 +289,12 @@ namespace SocialNetwork.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Mesages");
+
+            migrationBuilder.DropTable(
+                name: "UserFriends");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
