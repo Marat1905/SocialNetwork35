@@ -13,17 +13,20 @@ namespace SocialNetwork.Web.Controllers
     public class AccountManagerController : Controller
     {
         private IMapper _mapper;
-        private readonly UnitOfWork _unitOfWork;
+
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public AccountManagerController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, UnitOfWork unitOfWork)
+        private IUnitOfWork _unitOfWork;
+
+        public AccountManagerController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
+
 
         [Route("Login")]
         [HttpGet]
@@ -32,28 +35,10 @@ namespace SocialNetwork.Web.Controllers
             return View("Home/Login");
         }
 
-        [Route("Login")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
         {
-            if (ModelState.IsValid)
-            {
-
-                var user = _mapper.Map<User>(model);
-
-                var result = await _signInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, false);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("MyPage", "AccountManager");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
-            }
-            return RedirectToAction("Index", "Home");
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [Authorize]
@@ -90,8 +75,72 @@ namespace SocialNetwork.Web.Controllers
             return repository.GetFriendsByUser(result);
         }
 
+        [Route("Edit")]
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            var user = User;
 
-        // [Route("Logout")]
+            var result = _userManager.GetUserAsync(user);
+
+            var editmodel = _mapper.Map<UserEditViewModel>(result.Result);
+
+            return View("Edit", editmodel);
+        }
+
+        [Authorize]
+        [Route("Update")]
+        [HttpPost]
+        public async Task<IActionResult> Update(UserEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+
+                user.Convert(model);
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("MyPage", "AccountManager");
+                }
+                else
+                {
+                    return RedirectToAction("Edit", "AccountManager");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Некорректные данные");
+                return View("Edit", model);
+            }
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var user = _mapper.Map<User>(model);
+
+                var result = await _signInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("MyPage", "AccountManager");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Route("Logout")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -126,6 +175,7 @@ namespace SocialNetwork.Web.Controllers
             return RedirectToAction("MyPage", "AccountManager");
         }
 
+
         [Route("DeleteFriend")]
         [HttpPost]
         public async Task<IActionResult> DeleteFriend(string id)
@@ -144,33 +194,6 @@ namespace SocialNetwork.Web.Controllers
 
         }
 
-        [Authorize]
-        [Route("Update")]
-        [HttpPost]
-        public async Task<IActionResult> Update(UserEditViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByIdAsync(model.UserId);
-
-                user.Convert(model);
-
-                var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("MyPage", "AccountManager");
-                }
-                else
-                {
-                    return RedirectToAction("Edit", "AccountManager");
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Некорректные данные");
-                return View("Edit", model);
-            }
-        }
 
         private async Task<SearchViewModel> CreateSearch(string search)
         {
