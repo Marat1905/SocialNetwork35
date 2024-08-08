@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Web.Configs;
 using SocialNetwork.Web.Models.Users;
 
-namespace SocialNetwork.Web.Context
+namespace SocialNetwork.Web.Data.Context
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
@@ -10,6 +11,13 @@ namespace SocialNetwork.Web.Context
             : base(options)
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new FriendConfiguration());
         }
     }
 }

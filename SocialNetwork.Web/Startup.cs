@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Web.Context;
+using SocialNetwork.Web.Data.Context;
 using SocialNetwork.Web.Models.Users;
 
 namespace SocialNetwork.Web

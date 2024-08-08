@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Web.Repository
+﻿namespace SocialNetwork.Web.Data.Repository
 {
     public interface IRepository<T> where T : class
     {
@@ -6,6 +6,6 @@
         T Get(int id);
         void Create(T item);
         void Update(T item);
-        void Delete(int id);
+        void Delete(T id);
     }
 }
