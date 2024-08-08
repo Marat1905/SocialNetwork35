@@ -316,7 +316,7 @@ namespace SocialNetwork.Web.Controllers.Account
                 Recipient = friend,
                 Text = chat.NewMessage.Text,
             };
-            repository.Create(item);
+            await repository.CreateAsync(item);
 
             var model = await GenerateChat(id);
             return View("Chat", model);
