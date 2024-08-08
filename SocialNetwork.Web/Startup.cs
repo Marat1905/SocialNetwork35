@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Web.Data.Context;
+using SocialNetwork.Web.Data.Repository;
+using SocialNetwork.Web.Extentions;
 using SocialNetwork.Web.Models.Users;
 
 namespace SocialNetwork.Web
@@ -34,6 +36,8 @@ namespace SocialNetwork.Web
             services.AddSingleton(mapper);
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton)
+                .AddUnitOfWork()
+                .AddCustomRepository<Friend, FriendsRepository>()
                 .AddIdentity<User, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 5;
