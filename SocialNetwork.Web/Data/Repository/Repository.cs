@@ -45,5 +45,33 @@ namespace SocialNetwork.Web.Data.Repository
             Set.Update(item);
             _db.SaveChanges();
         }
+
+        public IAsyncEnumerable<T> GetAllAsync()
+        {
+           return Set.AsAsyncEnumerable();
+        }
+
+        public async Task<T> GetAsync(int id)
+        {
+            return await Set.FindAsync(id);
+        }
+
+        public async Task CreateAsync(T item)
+        {
+           await Set.AddAsync(item);
+           await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(T item)
+        {
+            Set.Update(item);
+           await _db.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(T item)
+        {
+            Set.Remove(item);
+            await _db.SaveChangesAsync();
+        }
     }
 }
