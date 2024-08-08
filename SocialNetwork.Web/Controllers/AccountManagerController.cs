@@ -67,6 +67,7 @@ namespace SocialNetwork.Web.Controllers
 
             var model = new UserViewModel(result);
 
+            model.Friends = await GetAllFriend(model.User);
 
             return View("User", model);
         }
@@ -88,6 +89,7 @@ namespace SocialNetwork.Web.Controllers
 
             return repository.GetFriendsByUser(result);
         }
+
 
         // [Route("Logout")]
         [HttpPost]
