@@ -53,16 +53,6 @@ namespace SocialNetwork.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-        // [Route("Logout")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
         [Authorize]
         [Route("MyPage")]
         [HttpGet]
@@ -77,6 +67,28 @@ namespace SocialNetwork.Web.Controllers
 
             return View("User", model);
         }
+
+        // [Route("Logout")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Route("UserList")]
+        [HttpPost]
+        public IActionResult UserList(string search)
+        {
+            var model = new SearchViewModel
+            {
+                UserList = _userManager.Users.AsEnumerable().Where(x => x.GetFullName().Contains(search)).ToList()
+            };
+            return View("UserList", model);
+        }
+
+
 
         [Authorize]
         [Route("Update")]
