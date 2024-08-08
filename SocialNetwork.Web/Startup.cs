@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Web.Context;
@@ -22,7 +23,16 @@ namespace SocialNetwork.Web
         public void ConfigureServices(IServiceCollection services)
         {
             string? connectionString = _configuration.GetConnectionString("DefaultConnection");
-           
+
+            var mapperConfig = new MapperConfiguration((v) =>
+            {
+                v.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton)
                 .AddIdentity<User, IdentityRole>(opts =>
                 {
