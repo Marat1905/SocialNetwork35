@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Web.Models.Users;
@@ -57,13 +58,28 @@ namespace SocialNetwork.Web.Controllers
             return View("Views/Home/Index.cshtml");
         }
 
-        [Route("Logout")]
+       // [Route("Logout")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [Route("MyPage")]
+        [HttpGet]
+        public async Task<IActionResult> MyPage()
+        {
+            var user = User;
+
+            var result = await _userManager.GetUserAsync(user);
+
+            var model = new UserViewModel(result);
+
+
+            return View("User", model);
         }
     }
 }
