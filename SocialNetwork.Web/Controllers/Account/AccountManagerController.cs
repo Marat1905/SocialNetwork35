@@ -222,7 +222,12 @@ namespace SocialNetwork.Web.Controllers.Account
 
             var result = await _userManager.GetUserAsync(currentuser);
 
-            var list = _userManager.Users.AsEnumerable().Where(x => x.GetFullName().ToLower().Contains(search.ToLower())).ToList();
+            var list = _userManager.Users.AsEnumerable().ToList();
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = list.Where(x => x.GetFullName().ToLower().Contains(search.ToLower())).ToList();
+            }
+
             var withfriend = await GetAllFriend();
 
             var data = new List<UserWithFriendExt>();
