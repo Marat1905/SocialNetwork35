@@ -106,7 +106,23 @@ namespace SocialNetwork.Web.Controllers
             return View("UserList", model);
         }
 
+        [Route("AddFriend")]
+        [HttpPost]
+        public async Task<IActionResult> AddFriend(string id)
+        {
+            var currentuser = User;
 
+            var result = await _userManager.GetUserAsync(currentuser);
+
+            var friend = await _userManager.FindByIdAsync(id);
+
+            var repository = _unitOfWork.GetRepository<Friend>() as FriendsRepository;
+
+            repository.AddFriend(result, friend);
+
+
+            return RedirectToAction("MyPage", "AccountManager");
+        }
 
         [Authorize]
         [Route("Update")]
