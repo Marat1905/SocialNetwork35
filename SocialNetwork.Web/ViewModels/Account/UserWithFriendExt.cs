@@ -2,9 +2,8 @@
 
 namespace SocialNetwork.Web.ViewModels.Account
 {
-    public class SearchViewModel
+    public class UserWithFriendExt : User
     {
-        public List<UserWithFriendExt> UserList { get; set; }
-
+        public bool IsFriendWithCurrent { get; set; }
     }
 }
