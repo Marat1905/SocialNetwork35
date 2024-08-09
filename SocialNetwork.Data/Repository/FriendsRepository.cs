@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Web.Data.Context;
-using SocialNetwork.Web.Models.Users;
+using SocialNetwork.Data.Context;
+using SocialNetwork.Data.Models.Users;
 
-namespace SocialNetwork.Web.Data.Repository
+namespace SocialNetwork.Data.Repository
 {
     public class FriendsRepository : Repository<Friend>
     {

@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Web.Models.Users
+﻿namespace SocialNetwork.Data.Models.Users
 {
     public class Friend
     {

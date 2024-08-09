@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SocialNetwork.Web.Models.Users;
+using SocialNetwork.Data.Models.Users;
 using SocialNetwork.Web.ViewModels.Account;
 
 namespace SocialNetwork.Web

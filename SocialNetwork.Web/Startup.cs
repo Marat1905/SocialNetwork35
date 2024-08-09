@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Web.Data.Context;
-using SocialNetwork.Web.Data.Repository;
-using SocialNetwork.Web.Extentions;
-using SocialNetwork.Web.Models.Users;
+using SocialNetwork.Data.Context;
+using SocialNetwork.Data.Repository;
+using SocialNetwork.Data.Extentions;
+using SocialNetwork.Data.Models.Users;
 
 namespace SocialNetwork.Web
 {
@@ -24,7 +24,8 @@ namespace SocialNetwork.Web
         // Документация:  https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            string? connectionString = _configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = _configuration.GetConnectionString("DefaultConnection")??
+                throw new ArgumentException("Подключение к БД не доступно");
 
             var mapperConfig = new MapperConfiguration((v) =>
             {

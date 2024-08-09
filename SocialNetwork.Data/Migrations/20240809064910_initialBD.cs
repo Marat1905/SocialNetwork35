@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SocialNetwork.Web.Migrations
+namespace SocialNetwork.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class createFrendsAndMessage : Migration
+    public partial class initialBD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

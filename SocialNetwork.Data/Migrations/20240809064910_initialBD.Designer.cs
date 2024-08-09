@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SocialNetwork.Web.Data.Context;
+using SocialNetwork.Data.Context;
 
 #nullable disable
 
-namespace SocialNetwork.Web.Migrations
+namespace SocialNetwork.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240809064910_initialBD")]
+    partial class initialBD
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,7 +158,7 @@ namespace SocialNetwork.Web.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Friend", b =>
+            modelBuilder.Entity("SocialNetwork.Data.Models.Users.Friend", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -178,7 +181,7 @@ namespace SocialNetwork.Web.Migrations
                     b.ToTable("UserFriends", (string)null);
                 });
 
-            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Message", b =>
+            modelBuilder.Entity("SocialNetwork.Data.Models.Users.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,7 +208,7 @@ namespace SocialNetwork.Web.Migrations
                     b.ToTable("Mesages", (string)null);
                 });
 
-            modelBuilder.Entity("SocialNetwork.Web.Models.Users.User", b =>
+            modelBuilder.Entity("SocialNetwork.Data.Models.Users.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -307,7 +310,7 @@ namespace SocialNetwork.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", null)
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -316,7 +319,7 @@ namespace SocialNetwork.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", null)
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -331,7 +334,7 @@ namespace SocialNetwork.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", null)
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -340,20 +343,20 @@ namespace SocialNetwork.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", null)
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Friend", b =>
+            modelBuilder.Entity("SocialNetwork.Data.Models.Users.Friend", b =>
                 {
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", "CurrentFriend")
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", "CurrentFriend")
                         .WithMany()
                         .HasForeignKey("CurrentFriendId");
 
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", "User")
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -362,13 +365,13 @@ namespace SocialNetwork.Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SocialNetwork.Web.Models.Users.Message", b =>
+            modelBuilder.Entity("SocialNetwork.Data.Models.Users.Message", b =>
                 {
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", "Recipient")
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", "Recipient")
                         .WithMany()
                         .HasForeignKey("RecipientId");
 
-                    b.HasOne("SocialNetwork.Web.Models.Users.User", "Sender")
+                    b.HasOne("SocialNetwork.Data.Models.Users.User", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId");
 

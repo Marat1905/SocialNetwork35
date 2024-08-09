@@ -1,7 +1,8 @@
-﻿using SocialNetwork.Web.Data.Repository;
-using SocialNetwork.Web.Data.UoW;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SocialNetwork.Data.Repository;
+using SocialNetwork.Data.UoW;
 
-namespace SocialNetwork.Web.Extentions
+namespace SocialNetwork.Data.Extentions
 {
     public static class ServiceExtentions
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Web.Data.Context;
+using SocialNetwork.Data.Context;
 
-namespace SocialNetwork.Web.Data.Repository
+namespace SocialNetwork.Data.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

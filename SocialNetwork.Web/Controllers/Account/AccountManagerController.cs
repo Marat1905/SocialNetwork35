@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Web.Data;
-using SocialNetwork.Web.Data.Repository;
-using SocialNetwork.Web.Data.UoW;
+using SocialNetwork.Data;
+using SocialNetwork.Data.Repository;
+using SocialNetwork.Data.UoW;
 using SocialNetwork.Web.Extentions;
-using SocialNetwork.Web.Models.Users;
+using SocialNetwork.Data.Models.Users;
 using SocialNetwork.Web.ViewModels.Account;
 
 namespace SocialNetwork.Web.Controllers.Account

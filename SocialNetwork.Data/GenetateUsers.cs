@@ -1,6 +1,6 @@
-﻿using SocialNetwork.Web.Models.Users;
+﻿using SocialNetwork.Data.Models.Users;
 
-namespace SocialNetwork.Web.Data
+namespace SocialNetwork.Data
 {
     public class GenetateUsers
     {

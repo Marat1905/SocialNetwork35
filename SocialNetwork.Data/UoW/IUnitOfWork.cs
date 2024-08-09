@@ -1,6 +1,6 @@
-﻿using SocialNetwork.Web.Data.Repository;
+﻿using SocialNetwork.Data.Repository;
 
-namespace SocialNetwork.Web.Data.UoW
+namespace SocialNetwork.Data.UoW
 {
     public interface IUnitOfWork : IDisposable
     {

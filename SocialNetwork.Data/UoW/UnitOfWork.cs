@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using SocialNetwork.Web.Data.Context;
-using SocialNetwork.Web.Data.Repository;
+using SocialNetwork.Data.Context;
+using SocialNetwork.Data.Repository;
 
-namespace SocialNetwork.Web.Data.UoW
+namespace SocialNetwork.Data.UoW
 {
     public class UnitOfWork : IUnitOfWork
     {
